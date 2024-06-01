@@ -1,16 +1,24 @@
 import React, { useState } from 'react'
-import SingleColor from './SingleColor'
-
+import {ToastContainer, toast} from "react-toastify";
 import Values from 'values.js'
 import Form from "./Form";
 import ColorList from "./ColorList";
 
 function App() {
   const [colors, setColors] = useState(new Values('#f15025').all(10));
-  console.log(colors)
+
+  const addColor = (color) => {
+    try {
+      setColors(new Values(color).all(10))
+    } catch (error) {
+      toast.error(error.message)
+    }
+  };
+
   return <main>
-    <Form />
-    <ColorList />
+    <Form addColor={addColor}/>
+    <ColorList colors={colors} />
+    <ToastContainer position='top-center'/>
   </main>
 }
 
